@@ -1,3 +1,5 @@
 bin
 obj
 .env
+!sample.mp4
+*.mp4

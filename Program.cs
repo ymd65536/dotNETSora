@@ -7,6 +7,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Core;
 
 using DotNETSora.Models;
 
@@ -15,14 +17,15 @@ using DotNETSora.Models;
 // 環境変数から値を取得
 var Endpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT") ?? string.Empty;
 var ApiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_KEY") ?? string.Empty;
+var UseApiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_USE_API_KEY") ?? "0";
 
 // APIバージョンは引き続き定数として扱う
 const string ApiVersion = "preview";
 
-if (string.IsNullOrEmpty(Endpoint) || string.IsNullOrEmpty(ApiKey))
+if (string.IsNullOrEmpty(Endpoint))
 {
-    Console.WriteLine("エラー: 環境変数 AZURE_OPENAI_ENDPOINT または AZURE_OPENAI_KEY が設定されていません。");
-    Console.WriteLine("続行する前に、これらの環境変数を設定してください。");
+    Console.WriteLine("エラー: 環境変数 AZURE_OPENAI_ENDPOINT が設定されていません。");
+    Console.WriteLine("続行する前に、環境変数AZURE_OPENAI_ENDPOINTを設定してください。");
     return;
 }
 
@@ -30,10 +33,21 @@ if (string.IsNullOrEmpty(Endpoint) || string.IsNullOrEmpty(ApiKey))
 try
 {
     using var client = new HttpClient();
-    
-    // ヘッダーの設定 (Pythonのheadersに対応)
-    client.DefaultRequestHeaders.Add("api-key", ApiKey);
+
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+    if (string.Equals(UseApiKey, "0"))
+    {
+        var credential = new DefaultAzureCredential();
+        var tokenRequestContext = new TokenRequestContext(new[] { "https://cognitiveservices.azure.com/.default" });
+        var token = await credential.GetTokenAsync(tokenRequestContext);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+    }
+    else
+    {
+        Console.WriteLine("⚠️ 警告: APIキー認証は推奨されていません。可能な限りEntra ID認証を使用してください。");
+        client.DefaultRequestHeaders.Add("api-key", ApiKey);
+    }
 
     // 1. Create a video generation job
     var createUrl = $"{Endpoint}/openai/v1/video/generations/jobs?api-version={ApiVersion}";
