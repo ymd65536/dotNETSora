@@ -9,7 +9,7 @@
 
 ### プレビュー
 
-[![sample.mp4](./sample.png)](https://youtube.com/shorts/ZPG5khZsyD4?feature=share)
+[![sample.mp4](./sample.png)](https://www.youtube.com/shorts/ZPG5khZsyD4)
 
 ## Azure環境のセットアップガイド
 
