@@ -3,6 +3,21 @@
 
 このリポジトリではAzure AI Foundryを利用してSoraによる動作生成を行うためのサンプルコードを提供しています。
 
+## 実行結果
+
+猫の動画（sample.mp4）が生成されます。
+
+### プレビュー
+
+以下はリポジトリ内の `sample.mp4` を参照する HTML5 動画プレーヤーの例です。GitHub のリポジトリビューではブラウザによっては直接再生されない場合があります（raw.githubusercontent.com 経由や GitHub Pages での公開を推奨）。動かない場合は下のダウンロードリンクを使ってください。
+
+<video controls width="640">
+	<source src="./sample.mp4" type="video/mp4">
+	お使いのブラウザは video タグに対応していません。代わりにこちらからダウンロードしてください。
+</video>
+
+[Download sample.mp4](./sample.mp4)
+
 ## Azure環境のセットアップガイド
 
 ## Azure CLIをセットアップする
