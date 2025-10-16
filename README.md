@@ -1,4 +1,9 @@
-# Azure Template Repo README
+
+## このリポジトリについて
+
+このリポジトリではAzure AI Foundryを利用してSoraによる動作生成を行うためのサンプルコードを提供しています。
+
+## Azure環境のセットアップガイド
 
 ## Azure CLIをセットアップする
 
