@@ -3,6 +3,10 @@
 
 このリポジトリではAzure AI Foundryを利用してSoraによる動作生成を行うためのサンプルコードを提供しています。
 
+参考ドキュメント
+
+- [クイック スタート: Soraを使用してビデオを生成する (プレビュー)](https://learn.microsoft.com/ja-jp/azure/ai-foundry/openai/video-generation-quickstart?tabs=macos%2Capi-key%2Ctext-prompt&pivots=rest-api)
+
 ## 実行結果
 
 猫の動画（sample.mp4）が生成されます。
