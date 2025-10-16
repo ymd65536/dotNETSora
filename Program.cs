@@ -17,7 +17,7 @@ var Endpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT") ?? st
 var ApiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_KEY") ?? string.Empty;
 
 // APIバージョンは引き続き定数として扱う
-const string ApiVersion = "2025-01-01";
+const string ApiVersion = "preview";
 
 if (string.IsNullOrEmpty(Endpoint) || string.IsNullOrEmpty(ApiKey))
 {
@@ -32,7 +32,7 @@ try
     using var client = new HttpClient();
     
     // ヘッダーの設定 (Pythonのheadersに対応)
-    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+    client.DefaultRequestHeaders.Add("api-key", ApiKey);
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
     // 1. Create a video generation job
@@ -45,7 +45,7 @@ try
     Console.WriteLine("--- 1. ジョブを作成中 ---");
     Console.WriteLine($"エンドポイント: {Endpoint}");
     var response = await client.PostAsync(createUrl, content);
-    response.EnsureSuccessStatusCode(); // HTTPステータスが2xxでなければ例外をスロー (raise_for_statusに相当)
+    response.EnsureSuccessStatusCode();
 
     var responseJson = await response.Content.ReadAsStringAsync();
     JobStatusResponse? jobCreationResponse = JsonSerializer.Deserialize<JobStatusResponse>(responseJson);
