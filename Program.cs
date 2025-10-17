@@ -52,7 +52,8 @@ try
     // 1. Create a video generation job
     var createUrl = $"{Endpoint}/openai/v1/video/generations/jobs?api-version={ApiVersion}";
     var requestBody = new VideoGenerationRequest();
-    
+    requestBody.Model = Environment.GetEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME") ?? requestBody.Model;
+
     var json = JsonSerializer.Serialize(requestBody);
     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
